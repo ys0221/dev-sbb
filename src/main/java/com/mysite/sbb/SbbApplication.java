@@ -26,8 +26,11 @@ public class SbbApplication {
 		Question q = new Question();
 		List<Answer> answers = q.getAnswers();
 
-		SpringApplication.run(SbbApplication.class, args);
 		 */
+
+		SpringApplication.run(SbbApplication.class, args);
+
+
 	}
 
 }
