@@ -1,5 +1,6 @@
 package com.mysite.sbb;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,7 +98,8 @@ class QuestionRepositoryTests {
 	}
 
 	@Test
-	@DisplayName("답변 데이터 생성")
+	@DisplayName("답변 데이터 생성 - 리포지토리 버전")
+	// 리포지토리 활용해서 답변을 생성
 	void t8() {
 		Question question = this.questionRepository.findById(2).get();
 
@@ -106,5 +108,17 @@ class QuestionRepositoryTests {
 		a.setQuestion(question);  // 어떤 질문의 답변인지 알기위해서 Question 객체가 필요하다.
 		a.setCreateDate(LocalDateTime.now());
 		this.answerRepository.save(a);
+	}
+
+	@Test
+	@DisplayName("답변 데이터 생성 - OneToMany 버전")
+	@Transactional
+	void t9() {
+		Question question = this.questionRepository.findById(2).get();
+		int beforeSize = question.getAnswers().size();
+		question.addAnswer("네 자동으로 생성됩니다.");
+
+		int afterSize = question.getAnswers().size();
+		assertEquals(beforeSize + 1, afterSize);
 	}
 }

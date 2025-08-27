@@ -34,7 +34,15 @@ public class Question {
 
     // mappedBy -> 외래키를 만들 필요가 없음을 알려줌 -> 테이블(Question_Answers) 안 생김
     // answer 입장에서 question 필요 / question 입장에서 answer 필수 아님 -> OneToMany 안 해도 됨
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "question", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    // list 자체가 바뀌지 않음(안에 내용만 바뀜) - 더티체킹 불가
+    // 위의 문제 해결 CascadeType.PERSIST 추가 -> 자식 리스트의 업데이트도 반영하게 됨
     private List<Answer> answers;
 
+    public void addAnswer(String content) {
+        Answer answer = new Answer();
+        answer.setContent(content);
+        answer.setQuestion(this);
+        answers.add(answer);
+    }
 }
