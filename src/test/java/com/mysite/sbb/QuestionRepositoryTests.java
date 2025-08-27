@@ -41,4 +41,12 @@ class QuestionRepositoryTests {
 		}
 	}
 
+	// 일반적이지 않은 경우 - 정의해야함
+	@Test
+	@DisplayName("findBySubject")
+	void t3() {
+		Question q = this.questionRepository.findBySubject("sbb가 무엇인가요?").get();
+		assertEquals(1, q.getId());
+	}
+
 }
