@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
@@ -113,6 +114,7 @@ class QuestionRepositoryTests {
 	@Test
 	@DisplayName("답변 데이터 생성 - OneToMany 버전")
 	@Transactional
+	@Rollback(false) // rollback 때문에 Insert 가 안 됨 -> false 로 처리
 	void t9() {
 		Question question = this.questionRepository.findById(2).get();
 		int beforeSize = question.getAnswers().size();
