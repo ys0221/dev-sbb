@@ -126,8 +126,9 @@ class QuestionRepositoryTests {
 
 	@Test
 	@DisplayName("2번 질문의 답글 조회")
+	@Transactional // 영속성 컨텍스트, 1차 캐시 메모리 생성, 프록시 초기화, 스냅샷 등등 일어남 -> 이렇게 되면 void t10 으로 transactional 이 늘어남
 	void t10() {
-		Question q2 = questionRepository.findById(2).get();
+		Question q2 = questionRepository.findById(2).get(); // repository 메서드 -> 기본적으로 transactional -> 이 시점에서는 question 만 가져옴
 		Answer answer = q2.getAnswers().get(0);
 
 		System.out.println(answer.getContent());
